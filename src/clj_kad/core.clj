@@ -1,4 +1,6 @@
-(ns clj-kad.core)
+(ns clj-kad.core
+  (:gen-class)
+  )
 
 (defn get-hash [type data]
   (.digest (java.security.MessageDigest/getInstance type) (.getBytes data) ))
