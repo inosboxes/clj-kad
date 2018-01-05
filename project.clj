@@ -12,4 +12,5 @@
                  [compojure "1.6.0"]
                  [ring "1.6.3"]
                  [org.clojure/tools.namespace "0.2.11"]
-                 [byte-streams "0.2.4-alpha3"]])
+                 [byte-streams "0.2.4-alpha3"]
+                 [org.clojure/core.async "0.3.465"]])
