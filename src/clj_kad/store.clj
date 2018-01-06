@@ -6,27 +6,23 @@
    [clojure.core.async :as async])
   (:gen-class))
 
+(defn get-mem-store-chan []
+  (async/<!! (new-mem-store (atom {}))))
+
+(defn get-fs-store-chan [path]
+  (async/<!! (new-fs-store path)))
+
+(defn set-item "doc-string" [chan kee args]
+  (async/<!! (k/assoc-in chan kee args)))
+
+(defn get-item "doc-string" [chan kee]
+  (async/<!! (k/get-in chan kee)))
+
 (comment
- (def store-chan (chan))
 
- (defn close-store-chan "doc-string" []
-   (close! store-chan))
+  (defn close-store-chan "doc-string" [store-chan]
+    (async/close! store-chan))
 
- (defn get-mem-store []
-   (go (<! store-chan (new-mem-store (atom {})))))
-
- (defn get-fs-store [path]
-   (go (<! store-chan (new-fs-store path))))
-
- (defn exists? "doc-string" [store & args]
-   (println args)
-   (go (<! store-chan (k/exists? store args))))
-
- (defn get-item "doc-string" [store & args]
-   (println args)
-   (go (<! store-chan (k/get-in store args))))
-
- (defn set-item "doc-string" [store kee & args]
-   (println kee args)
-   (go (<! store-chan (k/assoc-in store kee args))))
- )
+  (defn exists? "doc-string" [store-chan & args]
+    (println args)
+    (go (<! store-chan (k/exists? store args)))))
